@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Mamaz Admin | Dashboard</title>
+    <script>
+        if (sessionStorage.getItem("isAdmin") !== "true") window.location.href = "index.html";
+    </script>
+    <style>
+        body { background: #f0f4f8; font-family: sans-serif; padding: 40px; }
+        .card { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn-setuju { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #form-data { display: none; background: #eef9f1; padding: 20px; border-radius: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color:#0056b3; text-align:center;">MAMAZ ADMIN CONTROL</h2>
+        
+        <div class="section">
+            <h3>Atur Kontak Admin</h3>
+            <input type="text" placeholder="Ganti Nomor DANA Admin">
+            <input type="text" placeholder="Ganti Nomor WA Admin">
+            <button class="btn-setuju" style="background:#0056b3; width:100%;">SIMPAN KONTAK</button>
+        </div>
+
+        <div class="section">
+            <h3>Persetujuan Iklan</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div><b>User_Hamzx</b> (Tahunan)</div>
+                <button class="btn-setuju" onclick="approve()">SETUJUI & ISI DATA</button>
+            </div>
+
+            <div id="form-data">
+                <h4>Masukkan Data Promosi User:</h4>
+                <label>Link Web Tujuan:</label>
+                <input type="text" id="target-web" placeholder="https://website-user.com">
+                <label>Link Foto/Video Banner:</label>
+                <input type="text" id="target-img" placeholder="https://link-foto-user.jpg">
+                <button class="btn-setuju" style="width:100%" onclick="alert('Data Berhasil Ditayangkan di Halaman Utama!')">TAYANGKAN SEKARANG</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function approve() {
+            alert("Pembayaran Disetujui! Silahkan masukkan data iklan user.");
+            document.getElementById('form-data').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

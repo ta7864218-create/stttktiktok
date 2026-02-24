@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamaz Downloader | Elite V23</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue-pro: #0056b3; --pink-pro: #d63384; --dark: #0f1014; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--dark); color: white; text-align: center; overflow-x: hidden; }
+        
+        /* Navbar */
+        header { background: rgba(0,0,0,0.5); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: 700; background: linear-gradient(90deg, #6a11cb, #2575fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Menu Titik Tiga & Sidebar */
+        .menu-btn { font-size: 30px; cursor: pointer; color: white; padding: 0 10px; }
+        .sidebar { position: fixed; right: -100%; top: 0; width: 280px; height: 100%; background: #1a1b20; box-shadow: -5px 0 15px rgba(0,0,0,0.5); transition: 0.4s; z-index: 2000; padding: 20px; text-align: left; }
+        .sidebar.active { right: 0; }
+        .sidebar h3 { color: var(--blue-pro); border-bottom: 2px solid #333; padding-bottom: 10px; margin-top: 40px; }
+        .sidebar li { padding: 15px 0; border-bottom: 1px solid #222; cursor: pointer; list-style: none; font-size: 14px; }
+        #side-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 1500; }
+
+        /* Content */
+        .hero { padding: 60px 20px; }
+        .input-box { max-width: 600px; margin: 0 auto; background: #1e1f26; border-radius: 15px; display: flex; border: 1px solid #333; overflow: hidden; }
+        input { border: none; padding: 20px; width: 100%; background: transparent; color: white; outline: none; font-size: 16px; }
+        .btn-main { width: 100%; max-width: 600px; background: var(--pink-pro); color: white; border: none; padding: 20px; border-radius: 15px; font-weight: bold; font-size: 18px; margin-top: 20px; cursor: pointer; box-shadow: 0 0 15px rgba(214, 51, 132, 0.4); }
+
+        /* Iklan Besar di Bawah Download */
+        .ad-banner { max-width: 600px; margin: 30px auto; border-radius: 20px; overflow: hidden; border: 1px solid var(--pink-pro); cursor: pointer; transition: 0.3s; }
+        .ad-banner:hover { transform: scale(1.02); }
+        .ad-banner img { width: 100%; display: block; }
+
+        /* Login Modal */
+        #login-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; }
+        .login-card { background: #1a1b20; padding: 40px; border-radius: 25px; border: 1px solid var(--blue-pro); width: 300px; }
+        .login-card input { width: 100%; padding: 10px; margin-bottom: 10px; background: #000; color: #fff; border: 1px solid #333; border-radius: 5px; text-align: center; box-sizing: border-box; }
+
+        /* Overlay Download */
+        #overlay-dl { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 9999; flex-direction: column; justify-content: center; align-items: center; }
+        .timer-val { font-size: 60px; font-weight: 700; color: var(--pink-pro); margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="side-overlay" onclick="toggleSidebar()"></div>
+
+<div id="sidebar-menu" class="sidebar">
+    <div style="text-align: right; font-size: 24px; cursor: pointer;" onclick="toggleSidebar()">×</div>
+    <h3>MAMAZ EXPLORE</h3>
+    <ul>
+        <li onclick="location.href='promo.html'">🚀 Pasang Promosi</li>
+        <li onclick="alert('Panduan: Tempel link TikTok, klik Download, tunggu 10 detik.')">📖 Panduan</li>
+        <li onclick="bukaLogin()" style="margin-top: 50px; opacity: 0.3; font-size: 10px;">🔐 Login Admin</li>
+    </ul>
+</div>
+
+<div id="login-modal">
+    <div class="login-card">
+        <h2 style="color:var(--blue-pro); margin-bottom:20px;">ADMIN LOGIN</h2>
+        <input type="text" id="user-admin" placeholder="USERNAME">
+        <input type="password" id="pass-admin" placeholder="PASSWORD">
+        <button onclick="prosesLogin()" style="width:100%; padding:12px; background:var(--blue-pro); color:#fff; border:none; border-radius:10px; cursor:pointer; font-weight:bold;">MASUK</button>
+        <p onclick="tutupLogin()" style="color:#666; font-size:11px; margin-top:15px; cursor:pointer;">BATAL</p>
+    </div>
+</div>
+
+<div id="overlay-dl">
+    <div style="width:80px; height:80px; border:5px solid #222; border-top:5px solid var(--pink-pro); border-radius:50%; animation: spin 1s linear infinite;"></div>
+    <div class="timer-val" id="count">10</div>
+    <p>BYPASSING SECURITY...</p>
+</div>
+
+<header>
+    <div class="logo">ssttk tiktok</div>
+    <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+</header>
+
+<div class="hero">
+    <h1>TikTok Downloader</h1>
+    <div class="input-box">
+        <input type="text" id="link-tt" placeholder="Paste link TikTok di sini...">
+    </div>
+    <button class="btn-main" onclick="startDownload()">Download</button>
+
+    <div class="ad-banner" onclick="window.open('https://promo-user.com', '_blank')">
+        <img src="https://via.placeholder.com/600x350/1e1f26/d63384?text=IKLAN+PROMOSI+USER+MAMAZ" alt="Ads">
+        <div style="padding: 10px; background: var(--pink-pro); font-weight: bold; font-size: 12px;">KLIK UNTUK INFO PROMO!</div>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar() {
+        const side = document.getElementById('sidebar-menu');
+        const over = document.getElementById('side-overlay');
+        side.classList.toggle('active');
+        over.style.display = over.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function bukaLogin() { document.getElementById('login-modal').style.display = 'flex'; toggleSidebar(); }
+    function tutupLogin() { document.getElementById('login-modal').style.display = 'none'; }
+
+    function prosesLogin() {
+        const u = document.getElementById('user-admin').value;
+        const p = document.getElementById('pass-admin').value;
+        if(u === "admin" && p === "mamaz123") {
+            sessionStorage.setItem("isAdmin", "true");
+            window.location.href = "admin_mamaz.html";
+        } else { alert("User atau Password Salah!"); }
+    }
+
+    function startDownload() {
+        const url = document.getElementById('link-tt').value;
+        if(!url) return alert("Link mana, Bos?");
+
+        // Otomatis buka web iklan
+        window.open('https://promo-user.com', '_blank');
+
+        let time = 10; 
+        document.getElementById('overlay-dl').style.display = 'flex';
+        const timer = setInterval(() => {
+            time--;
+            document.getElementById('count').innerText = time;
+            if(time <= 0) {
+                clearInterval(timer);
+                document.getElementById('overlay-dl').style.display = 'none';
+                fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status) window.location.href = data.result.video.no_watermark;
+                    else alert("Gagal narik video!");
+                });
+            }
+        }, 1000);
+    }
+</script>
+<style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
+</body>
+</html>
